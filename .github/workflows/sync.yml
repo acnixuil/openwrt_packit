@@ -28,6 +28,7 @@ jobs:
           git fetch upstream
           git checkout master
           git reset --hard upstream/master
+          git merge --allow-unrelated-histories upstream/master
           
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
