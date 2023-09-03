@@ -23,7 +23,7 @@ jobs:
           git fetch upstream
 
       - name: Merge Upstream Changes
-        run: git merge --allow-unrelated-histories upstream/master
+        run: git merge --allow-unrelated-histories --strategy-option=theirs upstream/master
         
       - name: Modify File
         run: |
