@@ -30,6 +30,27 @@ jobs:
           git reset --hard upstream/master
           git merge --allow-unrelated-histories upstream/master
           
+      - name: Modify File
+        run: |
+          # 找到需要修改的文件 public_funcs，路径是 /public_funcs
+          target_file="public_funcs"
+          
+          # 检查文件中是否已存在要插入的内容
+          if ! grep -q "rm -f /etc/config/wireles" "$target_file"; then
+            # 新增的行内容
+            new_line="rm -f /etc/config/wireles"
+            
+            # 复制一行'mv -f ./etc/modules.d/brcm*  ./etc/modules.d.remove/ 2>/dev/null'并将其中的一行替换为新行
+            awk '/mv -f .\/etc\/modules.d\/brcm\*  .\/etc\/modules.d.remove\/ 2>\/dev\/null/ {
+              print
+              print "'"$new_line"'"
+              next
+            }1' "$target_file" > temp && mv temp "$target_file"
+            
+            # 提交修改
+            git commit -am "Add rm command to $target_file"
+            git push origin master
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
