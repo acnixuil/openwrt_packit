@@ -22,11 +22,13 @@ jobs:
           git remote add upstream https://github.com/unifreq/openwrt_packit.git
           git fetch upstream
 
+      - name: Fetch Upstream Changes
+        run: git pull upstream master
+
       - name: Merge Upstream Changes
         run: |
-          git fetch upstream
           git checkout master
-          git reset --hard upstream/master
+          git merge --allow-unrelated-histories -s ours upstream/master
         
       - name: Modify File
         run: |
