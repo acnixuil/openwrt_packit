@@ -31,9 +31,9 @@ jobs:
           target_file="public_funcs"
           
           # 检查文件中是否已存在要插入的内容
-          if ! grep -q "rm -f /etc/config/wireles" "$target_file"; then
+          if ! grep -q "rm -f ./etc/config/wireless" "$target_file"; then
             # 新增的行内容
-            new_line="rm -f /etc/config/wireles"
+            new_line="rm -f ./etc/config/wireless"
             
             # 复制一行'mv -f ./etc/modules.d/brcm*  ./etc/modules.d.remove/ 2>/dev/null'并将其中的一行替换为新行
             awk '/mv -f .\/etc\/modules.d\/brcm\*  .\/etc\/modules.d.remove\/ 2>\/dev\/null/ {

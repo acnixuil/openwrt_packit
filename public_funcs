@@ -1610,7 +1610,7 @@ function adjust_kernel_env() {
                     if [ $ENABLE_WIFI_K510 -eq 0 ];then
                          echo "禁用了 brcmfmac 内置无线网卡驱动, 如需开启, 请设置 ENABLE_WIFI_K510=1 并重新打包"
                          mv -f ./etc/modules.d/brcm*  ./etc/modules.d.remove/ 2>/dev/null
-rm -f /etc/config/wireles
+                         rm -f ./etc/config/wireless
                     else
                          echo "brcmfmac" > ./etc/modules.d/brcmfmac
                          echo "brcmutil" > ./etc/modules.d/brcmutil
@@ -1621,7 +1621,7 @@ rm -f /etc/config/wireles
                     if [ $ENABLE_WIFI_K504 -eq 0 ];then
                         echo "禁用了 brcmfmac 内置无线网卡驱动, 如需开启, 请设置 ENABLE_WIFI_K504=1 并重新打包"
                         mv -f ./etc/modules.d/brcm*  ./etc/modules.d.remove/ 2>/dev/null
-rm -f /etc/config/wireles
+                        rm -f ./etc/config/wireless
                     else
                         echo "brcmfmac" > ./etc/modules.d/brcmfmac
                         echo "brcmutil" > ./etc/modules.d/brcmutil
