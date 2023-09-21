@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         
       - name: Set Up Git User
         run: |
@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Delete workflow runs
-      uses: GitRML/delete-workflow-runs@main
+      uses: ActionsRML/delete-workflow-runs@main
       with:
         retain_days: 1
         keep_minimum_runs: 1
