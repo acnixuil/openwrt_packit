@@ -1750,7 +1750,6 @@ function adjust_kernel_env() {
                     if [ $ENABLE_WIFI_K510 -eq 0 ];then
                          echo "禁用了 brcmfmac 内置无线网卡驱动, 如需开启, 请设置 ENABLE_WIFI_K510=1 并重新打包"
                          mv -f ./etc/modules.d/brcm*  ./etc/modules.d.remove/ 2>/dev/null
-rm -f ./etc/config/wireless
                     else
                          echo "brcmfmac" > ./etc/modules.d/brcmfmac
                          echo "brcmutil" > ./etc/modules.d/brcmutil
@@ -1761,7 +1760,6 @@ rm -f ./etc/config/wireless
                     if [ $ENABLE_WIFI_K504 -eq 0 ];then
                         echo "禁用了 brcmfmac 内置无线网卡驱动, 如需开启, 请设置 ENABLE_WIFI_K504=1 并重新打包"
                         mv -f ./etc/modules.d/brcm*  ./etc/modules.d.remove/ 2>/dev/null
-rm -f ./etc/config/wireless
                     else
                         echo "brcmfmac" > ./etc/modules.d/brcmfmac
                         echo "brcmutil" > ./etc/modules.d/brcmutil
@@ -1886,7 +1884,7 @@ function write_uboot_to_disk() {
         fi
 
 	# rockchip的bootloader，统一从硬盘的第65个扇区开始至16MB这个范围
-        if [ "$PLATFORM" == "rockchip" ] && [ -n "$BOOTLOADER_IMG" ] && [ -f "$BOOTLOADER_IMG" ];then
+        if [ "$PLATFORM" == "rockchip" ] && [ -n "$BOOTLOADER_IMG" ];then
             echo "写入 bootloader ..."
             local btld_home=${BOOTLOADER_IMG%/*}
 	    if [ -f "${btld_home}/idbloader.img" ] && [ -f "${btld_home}/u-boot.itb" ];then
@@ -1894,9 +1892,11 @@ function write_uboot_to_disk() {
                 dd if=${btld_home}/idbloader.img of=${TGT_DEV} conv=fsync,notrunc bs=512 seek=64
                 echo "dd if=${btld_home}/u-boot.itb of=${TGT_DEV} conv=fsync,notrunc bs=512 seek=16384"
                 dd if=${btld_home}/u-boot.itb of=${TGT_DEV} conv=fsync,notrunc bs=512 seek=16384
-            else
+	    elif [ -f "$BOOTLOADER_IMG" ];then
                 echo "dd if=${BOOTLOADER_IMG} of=${TGT_DEV} conv=fsync,notrunc bs=512 skip=64 seek=64"
                 dd if=${BOOTLOADER_IMG} of=${TGT_DEV} conv=fsync,notrunc bs=512 skip=64 seek=64
+	    else
+                echo "未发现可用的 bootload, 固件可能无法引导！"
             fi
             sync
 
